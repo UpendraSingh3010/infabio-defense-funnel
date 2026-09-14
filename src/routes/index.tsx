@@ -151,12 +151,12 @@ function Index() {
     const name = String(data.get("name") ?? "").trim();
     const business = String(data.get("business") ?? "").trim();
     const contact = String(data.get("contact") ?? "").trim();
-    if (name.length < 2 || name.length > 100) nextErrors.name = "Please enter your full name.";
-    if (business.length < 2 || business.length > 160) nextErrors.business = "Please enter your business name or website.";
-    if (!spend) nextErrors.spend = "Please select your monthly ad spend.";
+    if (name.length < 2 || name.length > 100) nextErrors["name"] = "Please enter your full name.";
+    if (business.length < 2 || business.length > 160) nextErrors["business"] = "Please enter your business name or website.";
+    if (!spend) nextErrors["spend"] = "Please select your monthly ad spend.";
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
     const isPhone = /^[+\d][\d\s()-]{7,19}$/.test(contact);
-    if (!isEmail && !isPhone) nextErrors.contact = "Enter a valid phone number or email.";
+    if (!isEmail && !isPhone) nextErrors["contact"] = "Enter a valid phone number or email.";
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) return;
     setSubmitted(true);
@@ -314,12 +314,12 @@ function Index() {
               </div>
             ) : (
               <form onSubmit={submit} noValidate className="space-y-5">
-                <FormField label="Full Name" error={errors.name}><Input name="name" autoComplete="name" maxLength={100} placeholder="Your full name" className="h-12 bg-secondary/60" aria-invalid={Boolean(errors.name)} /></FormField>
-                <FormField label="Business Name / Website" error={errors.business}><Input name="business" autoComplete="organization" maxLength={160} placeholder="Company or website" className="h-12 bg-secondary/60" aria-invalid={Boolean(errors.business)} /></FormField>
-                <FormField label="Monthly Ad Spend" error={errors.spend}>
-                  <Select value={spend} onValueChange={setSpend}><SelectTrigger className="h-12 bg-secondary/60" aria-invalid={Boolean(errors.spend)}><SelectValue placeholder="Select a range" /></SelectTrigger><SelectContent><SelectItem value="under-1l">Under ₹1 lakh</SelectItem><SelectItem value="1l-5l">₹1–5 lakh</SelectItem><SelectItem value="5l-15l">₹5–15 lakh</SelectItem><SelectItem value="15l-plus">₹15 lakh+</SelectItem><SelectItem value="not-running">Not running ads yet</SelectItem></SelectContent></Select>
+                <FormField label="Full Name" error={errors["name"]}><Input name="name" autoComplete="name" maxLength={100} placeholder="Your full name" className="h-12 bg-secondary/60" aria-invalid={Boolean(errors["name"])} /></FormField>
+                <FormField label="Business Name / Website" error={errors["business"]}><Input name="business" autoComplete="organization" maxLength={160} placeholder="Company or website" className="h-12 bg-secondary/60" aria-invalid={Boolean(errors["business"])} /></FormField>
+                <FormField label="Monthly Ad Spend" error={errors["spend"]}>
+                  <Select value={spend} onValueChange={setSpend}><SelectTrigger className="h-12 bg-secondary/60" aria-invalid={Boolean(errors["spend"])}><SelectValue placeholder="Select a range" /></SelectTrigger><SelectContent><SelectItem value="under-1l">Under ₹1 lakh</SelectItem><SelectItem value="1l-5l">₹1–5 lakh</SelectItem><SelectItem value="5l-15l">₹5–15 lakh</SelectItem><SelectItem value="15l-plus">₹15 lakh+</SelectItem><SelectItem value="not-running">Not running ads yet</SelectItem></SelectContent></Select>
                 </FormField>
-                <FormField label="Phone or Email" error={errors.contact}><Input name="contact" autoComplete="email" maxLength={255} placeholder="you@company.com or +91…" className="h-12 bg-secondary/60" aria-invalid={Boolean(errors.contact)} /></FormField>
+                <FormField label="Phone or Email" error={errors["contact"]}><Input name="contact" autoComplete="email" maxLength={255} placeholder="you@company.com or +91…" className="h-12 bg-secondary/60" aria-invalid={Boolean(errors["contact"])} /></FormField>
                 <Button type="submit" className="brand-gradient brand-glow h-12 w-full text-[11px] font-black uppercase tracking-[0.1em] text-primary-foreground">{CTA_COPY}<ArrowRight /></Button>
                 <p className="text-center text-[10px] leading-4 text-muted-foreground">By submitting, you agree to be contacted about your strategy call.</p>
               </form>
@@ -360,7 +360,7 @@ function Index() {
   );
 }
 
-function FormField({ label, error, children }: { label: string; error?: string; children: ReactNode }) {
+function FormField({ label, error, children }: { label: string; error: string | undefined; children: ReactNode }) {
   return <div><Label className="mb-2 block text-xs font-bold uppercase tracking-[0.08em] text-muted-foreground">{label}</Label>{children}{error ? <p className="mt-1.5 text-xs text-danger">{error}</p> : null}</div>;
 }
 
